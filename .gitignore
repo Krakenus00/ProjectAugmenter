@@ -1,0 +1,12 @@
+# File extensions
+
+## Libraries
+*.dll
+
+# Folders
+
+## Bin
+Binaries/*
+
+## Intermediate bins
+Intermediate/*

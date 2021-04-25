@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Prj_Augmentor",
+	"Description": "TODO",
+	"Category": "Other",
+	"CreatedBy": "Krakenus00",
+	"CreatedByURL": "https://github.com/Krakenus00",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "Prj_Augmentor",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
