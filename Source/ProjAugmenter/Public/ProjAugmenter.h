@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FPrj_AugmentorModule : public IModuleInterface
+class FProjAugmenterModule : public IModuleInterface
 {
 public:
 

@@ -2,9 +2,9 @@
 	"FileVersion": 3,
 	"Version": 1,
 	"VersionName": "1.0",
-	"FriendlyName": "Prj_Augmentor",
-	"Description": "TODO",
-	"Category": "Other",
+	"FriendlyName": "Project Augmenter",
+	"Description": "",
+	"Category": "Rendering",
 	"CreatedBy": "Krakenus00",
 	"CreatedByURL": "https://github.com/Krakenus00",
 	"DocsURL": "",
@@ -16,7 +16,7 @@
 	"Installed": false,
 	"Modules": [
 		{
-			"Name": "Prj_Augmentor",
+			"Name": "ProjAugmenter",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}

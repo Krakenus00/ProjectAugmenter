@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class Prj_Augmentor : ModuleRules
+public class ProjAugmenter : ModuleRules
 {
-	public Prj_Augmentor(ReadOnlyTargetRules Target) : base(Target)
+	public ProjAugmenter(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
