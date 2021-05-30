@@ -1,9 +1,11 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright © 2021 Mykhailo Mushynskyi. All Rights Reserved.
 
+/*=====================================================================================================
+     PAEditorTweaks.cpp: Project Augmenter Editor Tweaks Blueprint Function Library implementation.
+=====================================================================================================*/
 
 #include "PAEditorTweaks.h"
 
-#include "Editor/UMGEditor/Public/WidgetBlueprint.h"
 #include "Editor/LevelEditor/Public/LevelEditor.h"
 #include "Runtime/Core/Public/Modules/ModuleManager.h"
 #include "Editor/Blutility/Public/IBlutilityModule.h"
@@ -14,45 +16,38 @@ void UPAEditorTweaks::PA_SetCastDynamicShadows(ULightComponent* Light, bool bSet
 	Light->CastDynamicShadows = bSet;
 }
 
-TSharedRef<SDockTab> UPAEditorTweaks::SpawnEditorUITab(const FSpawnTabArgs& SpawnTabArgst, UWidgetBlueprint* Widget)
+TSharedRef<SDockTab> UPAEditorTweaks::SpawnEditorUITab(const FSpawnTabArgs& SpawnTabArgs, UEditorUtilityWidget* Widget)
 {
 	TSharedRef<SDockTab> SpawnedTab = SNew(SDockTab);
-	TSubclassOf<UUserWidget> WidgetClass = Widget->GeneratedClass;
-	UWorld* World = GEditor->GetEditorWorldContext().World(); check(World);
-	UEditorUtilityWidget* CreatedUMGWidget = CreateWidget<UEditorUtilityWidget>(World, WidgetClass);
-	if (CreatedUMGWidget)
+	if (Widget)
 	{
-		TSharedRef<SWidget> CreatedSlateWidget = CreatedUMGWidget->TakeWidget();
+		const TSharedRef<SWidget> CreatedSlateWidget = Widget->TakeWidget();
 		SpawnedTab->SetContent(CreatedSlateWidget);
 	}
 	return SpawnedTab;
 }
 
-void UPAEditorTweaks::PA_DispatchEditorUtilityWidget(UWidgetBlueprint* Widget)
+void UPAEditorTweaks::PA_DispatchEditorUtilityWidget(UUserWidget* Widget)
 {
-	if (Widget->GeneratedClass->IsChildOf(UEditorUtilityWidget::StaticClass()))
+	const UEditorUtilityWidget* CDO = Widget->GetClass()->GetDefaultObject<UEditorUtilityWidget>();
+	UEditorUtilityWidget* Instance = Cast<UEditorUtilityWidget>(Widget);
+	if (CDO->ShouldAutoRunDefaultAction())
 	{
-		const UEditorUtilityWidget* CDO = Widget->GeneratedClass->GetDefaultObject<UEditorUtilityWidget>();
-		if (CDO->ShouldAutoRunDefaultAction())
+		// This is an instant-run blueprint, just execute it
+		Instance->ExecuteDefaultAction();
+	}
+	else
+	{
+		const FName RegistrationName = FName(*(Widget->GetPathName() + TEXT("_ActiveTab")));
+		const FText DisplayName = FText::FromString(Widget->GetName());
+		FLevelEditorModule& LevelEditorModule = FModuleManager::GetModuleChecked<FLevelEditorModule>(TEXT("LevelEditor"));
+		TSharedPtr<FTabManager> LevelEditorTabManager = LevelEditorModule.GetLevelEditorTabManager();
+		if (!LevelEditorTabManager->HasTabSpawner(RegistrationName))
 		{
-			// This is an instant-run blueprint, just execute it
-			UEditorUtilityWidget* Instance = NewObject<UEditorUtilityWidget>(GetTransientPackage(), Widget->GeneratedClass);
-			Instance->ExecuteDefaultAction();
+			LevelEditorTabManager->RegisterTabSpawner(RegistrationName, FOnSpawnTab::CreateStatic(&UPAEditorTweaks::SpawnEditorUITab, Instance))
+				.SetDisplayName(DisplayName)
+				.SetMenuType(ETabSpawnerMenuType::Hidden);
 		}
-		else
-		{
-			FName RegistrationName = FName(*(Widget->GetPathName() + TEXT("_ActiveTab")));
-			FText DisplayName = FText::FromString(Widget->GetName());
-			FLevelEditorModule& LevelEditorModule = FModuleManager::GetModuleChecked<FLevelEditorModule>(TEXT("LevelEditor"));
-			TSharedPtr<FTabManager> LevelEditorTabManager = LevelEditorModule.GetLevelEditorTabManager();
-			if (!LevelEditorTabManager->HasTabSpawner(RegistrationName))
-			{
-				//UEditorUtilityWidgetBlueprint* WidgetBlueprint = Cast<UEditorUtilityWidgetBlueprint>(Blueprint);
-				LevelEditorTabManager->RegisterTabSpawner(RegistrationName, FOnSpawnTab::CreateStatic(&UPAEditorTweaks::SpawnEditorUITab, Widget))
-					.SetDisplayName(DisplayName)
-					.SetMenuType(ETabSpawnerMenuType::Hidden);
-			}
-			TSharedPtr<SDockTab> NewDockTab = LevelEditorTabManager->TryInvokeTab(RegistrationName);
-		}
+		TSharedPtr<SDockTab> NewDockTab = LevelEditorTabManager->TryInvokeTab(RegistrationName);
 	}
 }
