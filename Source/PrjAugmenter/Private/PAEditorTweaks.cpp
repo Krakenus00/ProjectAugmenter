@@ -9,6 +9,7 @@
 #include "Editor/LevelEditor/Public/LevelEditor.h"
 #include "Runtime/Core/Public/Modules/ModuleManager.h"
 #include "Editor/Blutility/Public/IBlutilityModule.h"
+#include "Engine/StaticMeshActor.h"
 
 // Sets the Light property CastDynamicShadows to bSet
 void UPAEditorTweaks::PA_SetCastDynamicShadows(ULightComponent* Light, bool bSet)
@@ -50,4 +51,27 @@ void UPAEditorTweaks::PA_DispatchEditorUtilityWidget(UUserWidget* Widget)
 		}
 		TSharedPtr<SDockTab> NewDockTab = LevelEditorTabManager->TryInvokeTab(RegistrationName);
 	}
+}
+
+TArray<UStaticMesh*> UPAEditorTweaks::PA_GetStaticMeshes(TArray<AActor*> Actors)
+{
+	TArray<UStaticMesh*> Meshes;
+	for (const auto& A : Actors)
+		if (A->IsA(AStaticMeshActor::StaticClass()))
+		{
+			UStaticMeshComponent* MeshComponent = Cast<AStaticMeshActor>(A)->GetStaticMeshComponent();
+			MeshComponent->ForcedLodModel = 0;
+			MeshComponent->MinLOD = 0;
+			Meshes.Add(MeshComponent->GetStaticMesh());
+		}
+	return Meshes;
+}
+
+AActor* UPAEditorTweaks::PA_SpawnActorInEditorFromClass(TSubclassOf<AActor> Class, FTransform Transform)
+{
+#ifdef WITH_EDITOR
+	return GEditor->GetEditorWorldContext(false).World()->SpawnActor(Class, &Transform);
+#elif
+	return nullptr;
+#endif
 }

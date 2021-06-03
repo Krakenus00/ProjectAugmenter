@@ -13,6 +13,7 @@
 #include "Editor/UMGEditor/Public/WidgetBlueprint.h"
 #include "Editor/Blutility/Classes/EditorUtilityWidget.h"
 #include "Editor/LevelEditor/Public/LevelEditor.h"
+#include "Runtime/UMG/Public/Components/ListView.h"
 
 #include "PAEditorTweaks.generated.h"
 
@@ -34,4 +35,24 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Scripting")
 	static void PA_DispatchEditorUtilityWidget(UUserWidget* Widget);
+
+	UFUNCTION(BlueprintCallable, Category = "Scripting")
+	static TArray<UStaticMesh*> PA_GetStaticMeshes(TArray<AActor*> Actors);
+
+	UFUNCTION(BlueprintCallable, Category = "Scripting", meta = (DeterminesOutputType = "Class"))
+	static AActor* PA_SpawnActorInEditorFromClass(TSubclassOf<AActor> Class, FTransform Transform);
+};
+
+UCLASS(meta = (EntryInterface = UserListEntry))
+class PRJAUGMENTER_API UPAListView : public UListView
+{
+	GENERATED_BODY()
+
+	UFUNCTION(BlueprintCallable, Category = "Scripting")
+	void SetEntryWidgetClass(TSubclassOf<UUserWidget> NewWidget)
+	{
+#ifdef WITH_EDITOR
+		EntryWidgetClass = NewWidget;
+#endif
+	}
 };
