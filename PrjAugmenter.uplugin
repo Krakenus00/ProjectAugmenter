@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "4.26.2 v1.0 Development",
+	"VersionName": "4.26.2 v0.6 Beta",
 	"FriendlyName": "Unreal Engine Project Augmenter",
 	"Description": "Project Augmenter is a plugin that will help you in optimizing your projects. It also has a bunch of helpful editor tweaks, which you can utilize to speed up your work.",
 	"Category": "Project Augmenter",
