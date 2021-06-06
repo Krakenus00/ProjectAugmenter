@@ -7,34 +7,49 @@ public class PrjAugmenter : ModuleRules
 	public PrjAugmenter(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		
-		PrivateIncludePaths.AddRange(
+
+		PublicIncludePaths.AddRange
+		(
 			new string[]
 			{
-				"Runtime/Engine/Classes"
+				"PrjAugmenter/Public"
+			}
+		);
+
+
+		PrivateIncludePaths.AddRange
+		(
+			new string[]
+			{
+				"PrjAugmenter/Private"
 			}
 		);
 			
 		
-		PublicDependencyModuleNames.AddRange(
+		PublicDependencyModuleNames.AddRange
+		(
 			new string[]
 			{
-				"Core",
+				"Core"
 			}
 		);
 			
 		
-		PrivateDependencyModuleNames.AddRange(
+		PrivateDependencyModuleNames.AddRange
+		(
 			new string[]
 			{
+				"Projects",
+				"InputCore",
 				"CoreUObject",
 				"Engine",
 				"Slate",
 				"SlateCore",
-                "UnrealEd",
-                "Blutility",
-                "UMG",
-                "UMGEditor"
+				"UnrealEd",
+				"Blutility",
+				"UMG",
+				"UMGEditor",
+				"LevelEditor"
 			}
 		);
 	}

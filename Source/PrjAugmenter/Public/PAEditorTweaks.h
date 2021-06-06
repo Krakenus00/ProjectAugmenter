@@ -9,11 +9,12 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 
+#include "WidgetBlueprint.h"
+#include "EditorUtilityWidget.h"
+#include "LevelEditor.h"
+
 #include "Components/LightComponent.h"
-#include "Editor/UMGEditor/Public/WidgetBlueprint.h"
-#include "Editor/Blutility/Classes/EditorUtilityWidget.h"
-#include "Editor/LevelEditor/Public/LevelEditor.h"
-#include "Runtime/UMG/Public/Components/ListView.h"
+#include "Components/ListView.h"
 
 #include "PAEditorTweaks.generated.h"
 

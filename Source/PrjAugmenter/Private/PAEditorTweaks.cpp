@@ -6,9 +6,9 @@
 
 #include "PAEditorTweaks.h"
 
-#include "Editor/LevelEditor/Public/LevelEditor.h"
-#include "Runtime/Core/Public/Modules/ModuleManager.h"
-#include "Editor/Blutility/Public/IBlutilityModule.h"
+#include "LevelEditor.h"
+#include "Modules/ModuleManager.h"
+#include "IBlutilityModule.h"
 #include "Engine/StaticMeshActor.h"
 
 // Sets the Light property CastDynamicShadows to bSet
