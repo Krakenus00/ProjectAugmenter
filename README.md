@@ -5,4 +5,4 @@ This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 Intern
 
 #
 
-My bachelor's graduation work in 2021.
+My bachelor's graduation work.
